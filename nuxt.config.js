@@ -1,15 +1,17 @@
+const repoName = '/generate-random-users/'
+
 const routerBase =
   process.env.DEPLOY_ENV === 'GH_PAGES'
     ? {
         router: {
-          base: '/generate-random-users/'
+          base: repoName
         }
       }
     : {}
 
 export default {
   ...routerBase,
-  mode: 'universal',
+  mode: 'spa',
   /*
    ** Headers of the page
    */
@@ -36,10 +38,22 @@ export default {
       {
         hid: 'og:image',
         property: 'og:image',
-        content: '/images/social-media.jpg'
+        content:
+          process.env.DEPLOY_ENV === 'GH_PAGES'
+            ? repoName + 'images/social-media.jpg'
+            : '/images/social-media.jpg'
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href:
+          process.env.DEPLOY_ENV === 'GH_PAGES'
+            ? repoName + 'favicon.ico'
+            : '/favicon.ico'
+      }
+    ]
   },
   /*
    ** Customize the progress-bar color
@@ -71,7 +85,10 @@ export default {
     [
       'nuxt-lazy-load',
       {
-        defaultImage: '/images/default-image.png'
+        defaultImage:
+          process.env.DEPLOY_ENV === 'GH_PAGES'
+            ? repoName + 'images/default-image.png'
+            : '/images/default-image.png'
       }
     ]
   ],
